@@ -25,6 +25,8 @@ Give the following system configuration:
 - 6 GB ram
 - 4 VCPUs
 - 50 Mbit download network connectivity
+- Fully clonned adore repository with submodules
+- Docker system status:
 
 ```bash
 $ docker system df
@@ -35,4 +37,14 @@ Local Volumes   0         0         0B        0B
 Build Cache     0         0         0B        0B 
 ```
 
+A build time 
+27:00.24
+
+```bash
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          22        20        6.489GB   2.233GB (34%)
+Containers      20        1         386.7kB   0B (0%)
+Local Volumes   1         1         1.261GB   0B (0%)
+Build Cache     402       0         12.24GB   12.24GB
+```
 
