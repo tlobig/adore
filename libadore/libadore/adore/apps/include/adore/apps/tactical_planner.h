@@ -77,6 +77,8 @@ namespace adore
             adore::fun::AFactory::TForceLanechangeLeftReader* force_langechange_left_reader_; // get signals about lanechange suppression
             adore::fun::AFactory::TForceLanechangeRightReader* force_langechange_right_reader_; // get signals about lanechange suppression
             adore::fun::AFactory::TForceSlowManeuversReader* force_slow_maneuvers_reader_; // get signals about lanechange suppression
+            adore::fun::AFactory::THaltAutomationReader* halt_automation_reader_; // get signals about halting automation processing
+            bool halt_automation_;
 
           public:
             adore::fun::EvaluatorWeightedSum* getEvaluator(){return &evaluator_;}
@@ -103,12 +105,14 @@ namespace adore
                 force_langechange_left_reader_ = adore::fun::FunFactoryInstance::get()->getForceLanechangeLeftReader();
                 force_langechange_right_reader_ = adore::fun::FunFactoryInstance::get()->getForceLanechangeRightReader();
                 force_slow_maneuvers_reader_ = adore::fun::FunFactoryInstance::get()->getForceSlowManeuversReader();
+                halt_automation_reader_ = adore::fun::FunFactoryInstance::get()->getHaltAutomationReader();
 
                 last_time_ = 0.0;
                 lanechange_supression_timeout_ = 0.0;
                 cost_bound_guard_ = 1.e99;
                 cost_bound_ = cost_bound_guard_;
                 cost_bound_name_ = "MinimumNavigationCostOnLane";//@TODO HeD 20210917: replace with parameter
+                halt_automation_ = false;
             }
 
             virtual ~TacticalPlanner()
@@ -349,7 +353,18 @@ namespace adore
                 req.t_emergency_start = req.initial_state.tStart + pTrajectoryGeneration_->getEmergencyManeuverDelay();
                 req.t_planning_start = req.initial_state.tStart; // TODO is "now" a good time?
                 req.t_planning_end = req.t_planning_start + iteration_time_length_ * 0.95; // TODO should there be a better parametrization? magic numbers warning
-                request_writer_->write(req);
+                                
+                if(halt_automation_reader_->hasUpdate())
+                {
+                    halt_automation_reader_->getData(halt_automation_);
+                }
+                // halt automation is mostly for testing purposes, it will only prevent the tactical planner 
+                // to send trajectories to the controller. This results in the emergency maneuver being
+                // executed on the controller
+                if (!halt_automation_)
+                {
+                    request_writer_->write(req);
+                }
 
                 //update navigation cost -> if received, reset cost_bound_
                 if(navigation_goal_reader_->hasUpdate())
