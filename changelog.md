@@ -13,6 +13,22 @@
 
 # Change Log
 
+
+## 2023-06
+- configurable submodules allowing open or hierarchical module composition 
+- Modularized adore scheduler@ github.com
+- modularized adore cli@ github.com/DLR-TS/adore_cli.git
+- modularized libadore@ github.com/DLR-TS/libadore
+- modularized adore_if_ros@ github.com/DLR-TS/adore_if_ros
+
+
+
+## 2022-11-04 -> v0.3.1
+- updated adore_if_carla submodule to tag v0.1.0
+- bugfixes to the build system
+- introduced caching of externally provided docker images in folder .docker_image_cache
+
+
 ## 2022-07-16 -> v0.3.0
 - modularized respository structure
 - added osqp, lizard, cppcheck, cpplint

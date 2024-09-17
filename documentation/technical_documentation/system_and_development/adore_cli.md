@@ -8,13 +8,20 @@
 * http://www.eclipse.org/legal/epl-2.0.
 *
 * SPDX-License-Identifier: EPL-2.0 
+*
+* Contributors: 
 ********************************************************************************
 -->
-## We welcome your contribution!
-Currently ADORe is a small project and you can contact us with any question or feedback at [adore-dev@eclipse.org](mailto:adore-dev@eclipse.org).
-If you have ideas for extensions or want to change or fix anything:
-* Open an issue on github.
-* Create a fork of the github project.
-* Develop the feature/patch and check the [developer guide](documentation/developer_guide.md)
-  for details.
-* Provide a merge request.
+# ADORe CLI
+
+The ADORe CLI is a docker runtime context that provides a complete set of tools
+for execution and development within adore. For more information on this tool
+please visit https://github.com/DLR-TS/adore_cli
+
+## Usage
+Assuming you have docker, docker compose(note: not docker-compose) and make 
+installed navigate to the root of the ADORe project and run:
+```
+make cli
+```
+This will build all necessary adore components and launch a docker context.
